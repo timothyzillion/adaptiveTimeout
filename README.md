@@ -1,5 +1,7 @@
 # adaptiveTimeout
 
+https://twitter.com/jmclulow/status/879362528911872000
+
 In olden times, I wrote a quick and dirty fault detector for a piece of software:
 
 https://github.com/greenplum-db/gpdb/blob/master/src/backend/fts/ftsprobe.c

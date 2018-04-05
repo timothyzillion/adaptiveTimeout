@@ -40,9 +40,14 @@ class AdaptiveTimeout:
         self.sum_of_samples = self.sum_of_samples + newSample
         self.sum_of_squares = self.sum_of_squares + newSquare
 
-        self.mean = self.sum_of_samples / float(self.q.qsize())
-        average_of_squares = self.sum_of_squares / float(self.q.qsize())
-        variance = average_of_squares - self.mean
+        count = self.q.qsize()
+        self.mean = self.sum_of_samples / float(count)
+        if count > 2:
+            average_of_squares = self.sum_of_squares / float(count)
+            variance = average_of_squares - (self.mean * self.mean)
+        else:
+            # completely made-up variance until we have three samples.
+            variance = self.mean/2.0
         self.sigma = max(math.sqrt(variance), self.minSigma)
 
     def phi(self, time_since_last_heartbeat):
@@ -95,6 +100,8 @@ if __name__ == "__main__":
     at = AdaptiveTimeout(3)
     at.update(1)
     at.update(10)
+    import pdb
+    pdb.set_trace()
     print at.mean, at.sigma
     print "phi(20): ", at.phi(20)
     print "phi(1): ", at.phi(1)
